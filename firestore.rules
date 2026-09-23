@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 64 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['id', 'tableNumber', 'category', 'rating', 'comment', 'urgency', 'status', 'createdAt'])
+        && data.id is string && data.id.size() > 0 && data.id.size() <= 64
+        && data.tableNumber is string && data.tableNumber.size() > 0 && data.tableNumber.size() <= 20
+        && data.category is string && data.category in ['service_speed', 'food_taste', 'hygiene', 'staff_attitude', 'pricing_billing', 'other']
+        && data.rating is number && data.rating >= 1 && data.rating <= 5
+        && data.comment is string && data.comment.size() > 0 && data.comment.size() <= 2000
+        && data.urgency is string && data.urgency in ['low', 'medium', 'high']
+        && data.status is string && data.status in ['new', 'in_progress', 'resolved']
+        && data.createdAt is string && data.createdAt.size() <= 40
+        && (!('customerName' in data) || (data.customerName is string && data.customerName.size() <= 100))
+        && (!('customerPhone' in data) || (data.customerPhone is string && data.customerPhone.size() <= 50))
+        && (!('resolutionNote' in data) || (data.resolutionNote is string && data.resolutionNote.size() <= 1000))
+        && (!('resolvedAt' in data) || (data.resolvedAt is string && data.resolvedAt.size() <= 40));
+    }
+
+    match /feedbacks/{feedbackId} {
+      allow read: if true;
+      allow create: if isValidId(feedbackId) && isValidFeedback(request.resource.data);
+      allow update: if isValidId(feedbackId) && isValidFeedback(request.resource.data);
+      allow delete: if isValidId(feedbackId);
+    }
+
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

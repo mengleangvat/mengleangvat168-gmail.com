@@ -1,0 +1,6 @@
+{
+  "name": "KIMMO",
+  "description": "កម្មវិធីទទួលមតិនិងការត្អូញត្អែរពីអតិថិជនតាមរយៈ QR Code លើតុអាហាររបស់ភោជនីយដ្ឋាន KIMMO",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

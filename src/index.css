@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-dangrek: 'Dangrek', cursive, sans-serif;
+    --font-body: 'Kantumruy Pro', sans-serif;
+    --color-dark-red: #8B0000;
+    --color-dark-red-hover: #730000;
+    --color-dark-red-light: #fef2f2;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: #1f2937;
+    background-color: #faf7f7;
+  }
+
+  h1, h2, h3, .font-dangrek {
+    font-family: var(--font-dangrek);
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Print specific styles for printing QR codes on table tent / stickers */
+@media print {
+  body {
+    background: white !important;
+    padding: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .printable-area {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+}
+

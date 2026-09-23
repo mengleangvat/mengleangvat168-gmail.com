@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "CustomerFeedback": {
+      "title": "CustomerFeedback",
+      "description": "Customer feedback and complaints submitted by restaurant diners.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the feedback document"
+        },
+        "tableNumber": {
+          "type": "string",
+          "description": "Table number from where feedback was submitted",
+          "maxLength": 20
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of feedback",
+          "enum": ["service_speed", "food_taste", "hygiene", "staff_attitude", "pricing_billing", "other"]
+        },
+        "rating": {
+          "type": "number",
+          "description": "Customer rating from 1 to 5"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Customer feedback or complaint description",
+          "maxLength": 2000
+        },
+        "customerName": {
+          "type": "string",
+          "description": "Optional customer name",
+          "maxLength": 100
+        },
+        "customerPhone": {
+          "type": "string",
+          "description": "Optional customer phone number",
+          "maxLength": 50
+        },
+        "urgency": {
+          "type": "string",
+          "description": "Urgency level",
+          "enum": ["low", "medium", "high"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Resolution status",
+          "enum": ["new", "in_progress", "resolved"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO date string when feedback was submitted"
+        },
+        "resolutionNote": {
+          "type": "string",
+          "description": "Optional resolution note added by manager",
+          "maxLength": 1000
+        },
+        "resolvedAt": {
+          "type": "string",
+          "description": "Optional ISO date string when resolved"
+        }
+      },
+      "required": ["id", "tableNumber", "category", "rating", "comment", "urgency", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/feedbacks/{feedbackId}": {
+      "schema": "CustomerFeedback",
+      "description": "Collection of real-time restaurant feedback and complaints."
+    }
+  }
+}
